@@ -1,0 +1,62 @@
+[
+  {
+    "question": "What is Artificial Intelligence?",
+    "positive_doc": "Artificial Intelligence (AI) is the simulation of human intelligence processes by computer systems, including learning and reasoning.",
+    "negative_doc": "The capital of France is Paris and it is known for the Eiffel Tower and art museums."
+  },
+  {
+    "question": "What is Machine Learning?",
+    "positive_doc": "Machine Learning (ML) is a subfield of artificial intelligence that focuses on building algorithms that learn patterns from data.",
+    "negative_doc": "Photosynthesis is the chemical process used by green plants to convert light energy into chemical energy."
+  },
+  {
+    "question": "Who introduced the Transformer architecture?",
+    "positive_doc": "The Transformer architecture was introduced in the seminal 2017 paper Attention Is All You Need by Vaswani et al.",
+    "negative_doc": "Water freezes at zero degrees Celsius and boils at one hundred degrees Celsius under atmospheric pressure."
+  },
+  {
+    "question": "What are the core components of RAG?",
+    "positive_doc": "A standard RAG pipeline consists of document ingestion, chunking, dense vector embedding, similarity search, and answer generation.",
+    "negative_doc": "The Pythagorean theorem states that a squared plus b squared equals c squared in a right triangle."
+  },
+  {
+    "question": "What is supervised learning?",
+    "positive_doc": "Supervised learning algorithms build predictive models from labeled datasets with known target outputs.",
+    "negative_doc": "William Shakespeare wrote the tragedy Hamlet in the early seventeenth century in England."
+  },
+  {
+    "question": "What is unsupervised learning?",
+    "positive_doc": "Unsupervised learning discovers hidden patterns, clusters, and representations in unlabeled data without target labels.",
+    "negative_doc": "The speed of light in a vacuum is approximately three hundred thousand kilometers per second."
+  },
+  {
+    "question": "What is reinforcement learning?",
+    "positive_doc": "Reinforcement learning trains autonomous agents to make sequences of decisions by maximizing cumulative rewards in an environment.",
+    "negative_doc": "Mount Everest is the highest mountain peak above sea level on Earth located in the Himalayas."
+  },
+  {
+    "question": "What mechanism do Transformers use to replace RNNs?",
+    "positive_doc": "Transformers replace recurrent neural networks and LSTM networks with multi-head self-attention mechanisms.",
+    "negative_doc": "Baking bread requires flour, water, yeast, and salt mixed and fermented properly."
+  },
+  {
+    "question": "Why does RAG reduce hallucination?",
+    "positive_doc": "RAG significantly reduces model hallucination by grounding generation in authoritative retrieved source documents.",
+    "negative_doc": "Jupiter is the largest planet in our solar system and possesses a giant storm known as the Great Red Spot."
+  },
+  {
+    "question": "What is a vector database used for?",
+    "positive_doc": "Vector databases store high-dimensional dense vector embeddings and enable fast nearest-neighbor similarity search.",
+    "negative_doc": "The Amazon rainforest produces vast amounts of oxygen and houses millions of species."
+  },
+  {
+    "question": "What does Layer Normalization do in Transformers?",
+    "positive_doc": "Layer Normalization stabilizes the hidden state dynamics in deep Transformers and accelerates training convergence.",
+    "negative_doc": "The Pacific Ocean is the largest and deepest ocean basin on Earth."
+  },
+  {
+    "question": "What is Deep Learning?",
+    "positive_doc": "Deep Learning is a branch of machine learning based on artificial neural networks with multiple representation layers.",
+    "negative_doc": "The human heart pumps oxygenated blood through arteries and veins throughout the body."
+  }
+]

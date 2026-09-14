@@ -1,0 +1,74 @@
+[
+  {
+    "chunk_id": "ai_notes.txt_chunk_0000",
+    "text": "Artificial Intelligence (AI) is the simulation of human intelligence processes by computer systems. These processes include learning, reasoning, problem solving, perception, and self-correction. Specific applications of AI include expert systems, speech recognition, machine translation, and computer vision. Artificial General Intelligence (AGI) refers to hypothetical machines possessing human-level cognitive capabilities across all domains. Narrow AI or weak AI is designed to perform a dedicated single task such as image classification or chess playing.",
+    "metadata": {
+      "document_name": "ai_notes.txt",
+      "document_path": "C:\\Users\\DAVID AJAYI\\Desktop\\prof ogunti nlp\\RAG\\data\\documents\\ai_notes.txt",
+      "page": 1,
+      "format": "txt",
+      "chunk_id": "ai_notes.txt_chunk_0000",
+      "chunk_index": 0
+    }
+  },
+  {
+    "chunk_id": "deep_learning_concepts.txt_chunk_0000",
+    "text": "Deep Learning is a branch of machine learning based on artificial neural networks with multiple representation layers. Backpropagation and gradient descent are used to optimize network weights by minimizing a loss function. Common activation functions include ReLU, GELU, and Sigmoid, which introduce non-linearity into neural representations. Layer Normalization stabilizes the hidden state dynamics in deep Transformers and accelerates training convergence.",
+    "metadata": {
+      "document_name": "deep_learning_concepts.txt",
+      "document_path": "C:\\Users\\DAVID AJAYI\\Desktop\\prof ogunti nlp\\RAG\\data\\documents\\deep_learning_concepts.txt",
+      "page": 1,
+      "format": "txt",
+      "chunk_id": "deep_learning_concepts.txt_chunk_0000",
+      "chunk_index": 0
+    }
+  },
+  {
+    "chunk_id": "machine_learning_overview.txt_chunk_0000",
+    "text": "Machine Learning (ML) is a subfield of artificial intelligence that focuses on building algorithms that learn patterns from data. Instead of being explicitly programmed with static rules, ML algorithms construct statistical models from sample training data. Supervised learning algorithms build predictive models from labeled datasets with known target outputs. Unsupervised learning discovers hidden patterns, clusters, and representations in unlabeled data without target labels. Reinforcement learning trains autonomous agents to make sequences of decisions by maximizing cumulative rewards in an environment.",
+    "metadata": {
+      "document_name": "machine_learning_overview.txt",
+      "document_path": "C:\\Users\\DAVID AJAYI\\Desktop\\prof ogunti nlp\\RAG\\data\\documents\\machine_learning_overview.txt",
+      "page": 1,
+      "format": "txt",
+      "chunk_id": "machine_learning_overview.txt_chunk_0000",
+      "chunk_index": 0
+    }
+  },
+  {
+    "chunk_id": "rag_systems.txt_chunk_0000",
+    "text": "Retrieval-Augmented Generation (RAG) is an architectural framework that enhances Large Language Models by retrieving relevant documents from an external knowledge base. A standard RAG pipeline consists of document ingestion, text chunking, dense vector embedding, similarity search in a vector database, and prompt-conditioned answer generation. RAG significantly reduces model hallucination, ensures grounding in authoritative source documents, and provides verifiable citations. Dense retrievers use dual encoder neural networks trained with InfoNCE contrastive loss to map questions and passages into a shared vector space.",
+    "metadata": {
+      "document_name": "rag_systems.txt",
+      "document_path": "C:\\Users\\DAVID AJAYI\\Desktop\\prof ogunti nlp\\RAG\\data\\documents\\rag_systems.txt",
+      "page": 1,
+      "format": "txt",
+      "chunk_id": "rag_systems.txt_chunk_0000",
+      "chunk_index": 0
+    }
+  },
+  {
+    "chunk_id": "transformer_architecture.txt_chunk_0000",
+    "text": "The Transformer architecture was introduced in the seminal 2017 paper 'Attention Is All You Need' by Vaswani et al. Transformers replace recurrent neural networks (RNNs) and LSTM networks with multi-head self-attention mechanisms. This enables parallel computation across all tokens in a sequence, eliminating the sequential bottleneck of recurrence. Key components include Scaled Dot-Product Attention, Sinusoidal Positional Encodings, Feed-Forward Networks, and Residual Layer Normalization. Transformers form the foundational backbone for modern Large Language Models, BERT, GPT, and Retrieval-Augmented Generation systems.",
+    "metadata": {
+      "document_name": "transformer_architecture.txt",
+      "document_path": "C:\\Users\\DAVID AJAYI\\Desktop\\prof ogunti nlp\\RAG\\data\\documents\\transformer_architecture.txt",
+      "page": 1,
+      "format": "txt",
+      "chunk_id": "transformer_architecture.txt_chunk_0000",
+      "chunk_index": 0
+    }
+  },
+  {
+    "chunk_id": "vector_databases.txt_chunk_0000",
+    "text": "Vector databases store high-dimensional dense vector embeddings generated by neural embedding models. They enable fast nearest-neighbor similarity search using metrics such as Cosine Similarity, Dot Product, and Euclidean Distance. In a local RAG system, document chunks are indexed as dense vectors, allowing the retriever to identify relevant context in milliseconds.",
+    "metadata": {
+      "document_name": "vector_databases.txt",
+      "document_path": "C:\\Users\\DAVID AJAYI\\Desktop\\prof ogunti nlp\\RAG\\data\\documents\\vector_databases.txt",
+      "page": 1,
+      "format": "txt",
+      "chunk_id": "vector_databases.txt_chunk_0000",
+      "chunk_index": 0
+    }
+  }
+]

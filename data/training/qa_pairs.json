@@ -1,0 +1,74 @@
+[
+  {
+    "context": "Artificial Intelligence (AI) is the simulation of human intelligence processes by computer systems, including learning, reasoning, and self-correction.",
+    "question": "What is Artificial Intelligence?",
+    "answer": "Artificial Intelligence is the simulation of human intelligence processes by computer systems, including learning and reasoning.",
+    "target_chunk_id": "ai_notes.txt_chunk_0000"
+  },
+  {
+    "context": "Machine Learning is a subfield of artificial intelligence that focuses on building algorithms that learn patterns from data.",
+    "question": "What is Machine Learning?",
+    "answer": "Machine Learning is a subfield of AI focused on building systems that learn statistical patterns from data.",
+    "target_chunk_id": "machine_learning_overview.txt_chunk_0000"
+  },
+  {
+    "context": "The Transformer architecture was introduced in the seminal 2017 paper Attention Is All You Need by Vaswani et al.",
+    "question": "Who introduced the Transformer architecture?",
+    "answer": "The Transformer architecture was introduced by Vaswani et al. in the 2017 paper Attention Is All You Need.",
+    "target_chunk_id": "transformer_architecture.txt_chunk_0000"
+  },
+  {
+    "context": "Transformers replace recurrent neural networks with multi-head self-attention mechanisms to process all tokens simultaneously.",
+    "question": "What mechanism do Transformers use?",
+    "answer": "Transformers use multi-head self-attention mechanisms to process tokens in parallel.",
+    "target_chunk_id": "transformer_architecture.txt_chunk_0000"
+  },
+  {
+    "context": "Retrieval-Augmented Generation enhances Large Language Models by retrieving relevant documents from an external knowledge base.",
+    "question": "What is RAG?",
+    "answer": "Retrieval-Augmented Generation enhances language models by retrieving relevant documents from an external knowledge base.",
+    "target_chunk_id": "rag_systems.txt_chunk_0000"
+  },
+  {
+    "context": "A standard RAG pipeline consists of document ingestion, chunking, dense vector embedding, similarity search, and answer generation.",
+    "question": "What are the core components of RAG?",
+    "answer": "The core components of RAG are document ingestion, chunking, dense embedding, similarity search, and answer generation.",
+    "target_chunk_id": "rag_systems.txt_chunk_0000"
+  },
+  {
+    "context": "Supervised learning algorithms build predictive models from labeled datasets with known target outputs.",
+    "question": "What is supervised learning?",
+    "answer": "Supervised learning algorithms build predictive models from labeled datasets with known target outputs.",
+    "target_chunk_id": "machine_learning_overview.txt_chunk_0000"
+  },
+  {
+    "context": "Unsupervised learning discovers hidden patterns and representations in unlabeled data without target labels.",
+    "question": "What is unsupervised learning?",
+    "answer": "Unsupervised learning discovers hidden patterns and clusters in unlabeled data without target labels.",
+    "target_chunk_id": "machine_learning_overview.txt_chunk_0000"
+  },
+  {
+    "context": "Reinforcement learning trains autonomous agents to make sequences of decisions by maximizing cumulative rewards.",
+    "question": "What is reinforcement learning?",
+    "answer": "Reinforcement learning trains agents to make decision sequences by maximizing cumulative rewards.",
+    "target_chunk_id": "machine_learning_overview.txt_chunk_0000"
+  },
+  {
+    "context": "Vector databases store high-dimensional dense vector embeddings and enable fast similarity search.",
+    "question": "What is a vector database?",
+    "answer": "A vector database stores high-dimensional vector embeddings and enables fast similarity search.",
+    "target_chunk_id": "vector_databases.txt_chunk_0000"
+  },
+  {
+    "context": "Deep Learning is a branch of machine learning based on artificial neural networks with multiple representation layers.",
+    "question": "What is Deep Learning?",
+    "answer": "Deep Learning is a machine learning branch based on multi-layer artificial neural networks.",
+    "target_chunk_id": "deep_learning_concepts.txt_chunk_0000"
+  },
+  {
+    "context": "Layer Normalization stabilizes hidden state dynamics in deep Transformers and accelerates training convergence.",
+    "question": "What is the purpose of Layer Normalization?",
+    "answer": "Layer Normalization stabilizes hidden state dynamics and accelerates convergence in deep Transformers.",
+    "target_chunk_id": "deep_learning_concepts.txt_chunk_0000"
+  }
+]

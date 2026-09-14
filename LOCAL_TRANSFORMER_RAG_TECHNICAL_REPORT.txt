@@ -1,0 +1,234 @@
+========================================================================================
+TECHNICAL REPORT & SYSTEM SPECIFICATION
+OFFLINE LOCAL PYTORCH TRANSFORMER RETRIEVAL-AUGMENTED GENERATION (RAG) SYSTEM
+========================================================================================
+
+Author / Developer: DAVID AJAYI
+Environment: 100% Local (CPU / CUDA), Offline Architecture (Zero Cloud APIs)
+Date: August 26, 2026
+
+----------------------------------------------------------------------------------------
+1. EXECUTIVE SUMMARY & OBJECTIVES
+----------------------------------------------------------------------------------------
+This project delivers a completely local, self-contained Retrieval-Augmented Generation 
+(RAG) system built from scratch using pure PyTorch and fundamental Transformer neural 
+architectures. 
+
+Key Objectives:
+1. Complete Data Privacy & Local Execution: Zero external cloud API calls (no OpenAI, 
+   no Anthropic, no HuggingFace cloud dependencies). All tensor computations, tokenization, 
+   embedding generation, dense retrieval, and sequence-to-sequence answer generation occur 
+   locally on the host machine.
+2. Custom Deep Learning Pipeline: Implementation of native Multi-Head Attention, Sinusoidal 
+   Positional Encodings, Transformer Encoders, Transformer Decoders, Subword BPE Tokenizer, 
+   Dense Retriever (Dual Encoder with InfoNCE Contrastive Loss), and a Local Vector Store.
+3. Resilience & Production Readiness: Modular checkpoints saving (`best_model.pt` and 
+   `latest.pt`), dynamic parameter configurations (`SMALL`, `MEDIUM`, `LARGE` presets), 
+   and a rich real-time Web Testing Interface accessible locally at port 4881.
+
+----------------------------------------------------------------------------------------
+2. ARCHITECTURAL OVERVIEW & MATHEMATICAL FOUNDATIONS
+----------------------------------------------------------------------------------------
+The system comprises two core neural components operating in synergy:
+  [A] Dense Transformer Retriever (Dual Encoder)
+  [B] Seq2Seq Transformer Answer Generator (Encoder-Decoder)
+
+A. NATIVE PYTORCH TRANSFORMER COMPONENTS:
+  1. Scaled Dot-Product Attention:
+     Attention(Q, K, V) = softmax( (Q * K^T) / sqrt(d_k) ) * V
+     Where Q (Query), K (Key), and V (Value) are linear projections of input embeddings.
+
+  2. Multi-Head Attention:
+     MultiHead(Q, K, V) = Concat(head_1, ..., head_h) * W_O
+     Where head_i = Attention(Q * W_i^Q, K * W_i^K, V * W_i^V)
+
+  3. Sinusoidal Positional Encoding:
+     PE(pos, 2i)   = sin(pos / 10000^(2i / d_model))
+     PE(pos, 2i+1) = cos(pos / 10000^(2i / d_model))
+     Injects token position order without recurrent recurrence overhead.
+
+  4. Feed-Forward Network (FFN) & Normalization:
+     FFN(x) = max(0, x * W1 + b1) * W2 + b2
+     Residual Connections: Output = LayerNorm(x + Sublayer(x))
+
+B. DENSE RETRIEVER (DUAL ENCODER):
+  - Encodes query sequence q and passage sequence d into d_model normalized vectors:
+    q_vec = L2Norm(MeanPool(Encoder(q)))
+    d_vec = L2Norm(MeanPool(Encoder(d)))
+  - Optimization via InfoNCE / Contrastive Cross-Entropy Loss:
+    L_InfoNCE = -log( exp(sim(q, d+) / tau) / sum_j( exp(sim(q, d_j) / tau) ) )
+    Where tau = 0.07 is the temperature parameter and sim(u, v) is cosine similarity.
+
+C. VECTOR STORE & FAST SIMILARITY SEARCH:
+  - Local dense vector database stored in `indexes/document_embeddings.npy` and 
+    `indexes/metadata.json`.
+  - Computes exact Cosine Similarity:
+    CosineSim(u, v) = (u . v) / ( ||u||_2 * ||v||_2 )
+  - Employs Top-K sorting to retrieve the most semantically relevant text passages.
+
+D. SEQ2SEQ ANSWER GENERATOR:
+  - Transformer Encoder-Decoder model trained with Teacher Forcing.
+  - Encoder input: Context Passages + <SEP> + Question Token Sequence.
+  - Decoder target: Gold Grounded Answer Tokens + <EOS>.
+  - Cross-Entropy Loss over subword vocabulary tokens (ignoring <PAD> tokens).
+  - Autoregressive inference with Greedy Decoding & Nucleus (Top-P/Top-K) Sampling 
+    with Repetition Penalty to prevent degenerate token loops.
+
+----------------------------------------------------------------------------------------
+3. STEP-BY-STEP DEVELOPMENT PROCEDURES
+----------------------------------------------------------------------------------------
+The system was engineered and built across 10 systematic phases:
+
+Phase 1: Environment Diagnostics & Hardware Profiling
+  - Developed `check_environment.py` to auto-detect Windows OS parameters, CPU core count, 
+    RAM size, and CUDA GPU status.
+  - Automatically configured architecture hyperparameters (Presets: SMALL, MEDIUM, LARGE) 
+    to guarantee smooth real-time CPU execution without out-of-memory errors.
+
+Phase 2: Local Document Ingestion & Chunking Engine
+  - Developed `src/data/document_loader.py`, `src/data/document_cleaner.py`, and `src/data/chunker.py`.
+  - Ingestion pipeline supports `.txt`, `.docx`, and `.pdf` files.
+  - Documents are normalized, stripped of non-printable artifacts, and segmented into 
+    sentence-bounded chunks with customizable overlap (default: 256 tokens, 50 overlap).
+
+Phase 3: Subword Byte-Pair Encoding (BPE) Tokenizer
+  - Developed `src/tokenizer/tokenizer.py` and `src/tokenizer/train_tokenizer.py`.
+  - Trains a local subword BPE model directly on the local corpus.
+  - Assigns reserved special tokens: <PAD>=0, <UNK>=1, <BOS>=2, <EOS>=3, <SEP>=4.
+  - Saves tokenizer configurations and vocab tables locally to `models/tokenizer/`.
+
+Phase 4: Dense Dual-Encoder Retriever Development
+  - Developed `src/retriever/embedding_model.py` and `src/retriever/train_retriever.py`.
+  - Formatted contrastive question-positive-negative triplets.
+  - Trained dual-encoder network with InfoNCE loss and gradient clipping.
+
+Phase 5: Vector Store & Embeddings Indexing
+  - Developed `src/vectorstore/vector_index.py`, `src/vectorstore/similarity.py`, and `build_index.py`.
+  - Batched chunk text encoding into dense L2-normalized numpy arrays.
+  - Vector indexing maps chunk identifiers, document titles, page metadata, and text snippets.
+
+Phase 6: Seq2Seq Transformer Answer Generator Development
+  - Developed `src/generator/generator_model.py`, `src/generator/decoding.py`, and `src/generator/train_generator.py`.
+  - Implemented Teacher Forcing dataset loader in `src/data/dataset.py`.
+  - Implemented greedy and sampling autoregressive decoding algorithms with repetition penalty.
+
+Phase 7: End-to-End RAG Pipeline & Smart Context Synthesis
+  - Developed `src/rag/context_builder.py` and `src/rag/rag_pipeline.py`.
+  - Assembles prompt context within sequence budget limits.
+  - Couples the Dense Retriever, Vector Index, and Seq2Seq Generator into a unified API.
+  - Incorporates answer synthesis and citation grounding for reliable output.
+
+Phase 8: Checkpointing & Resilience Engine
+  - Developed `src/utils/checkpoint.py`.
+  - Manages atomic state saving for model weights, optimizer states, epoch counts, and 
+    loss histories.
+  - Supports `--resume` flag to continue interrupted training seamlessly.
+
+Phase 9: Evaluation Suite & Quantitative Metrics
+  - Developed `src/rag/evaluator.py`, `src/utils/metrics.py`, and `evaluate.py`.
+  - Computes Retrieval Recall@1, Recall@3, Mean Reciprocal Rank (MRR), Generator Exact Match, 
+    and BLEU scores.
+
+Phase 10: Interactive Web Testing Studio & Server Deployment
+  - Developed `app.py` leveraging FastAPI and Uvicorn.
+  - Features a glassmorphic dark-mode web application running on port 4881 (`http://localhost:4881`).
+  - Enables interactive RAG chatting, live passage retrieval inspection, one-click browser 
+    retraining with progress monitoring, and knowledge base file uploads.
+
+----------------------------------------------------------------------------------------
+4. DIRECTORY LAYOUT & REPOSITORY STRUCTURE
+----------------------------------------------------------------------------------------
+RAG/
+├── app.py                      # FastAPI Web Testing Server (port 4881)
+├── build_index.py              # Dense vector index construction script
+├── chat.py                     # Interactive CLI chat script
+├── check_environment.py        # System & hardware inspection tool
+├── config.py                   # Central hyperparameters & directory configs
+├── evaluate.py                 # RAG pipeline evaluation script
+├── ingest_documents.py         # Document ingestion & chunking script
+├── plot_metrics.py             # Training metrics & loss curves generator
+├── prepare_data.py             # Knowledge corpus & training data generator
+├── requirements.txt            # Python dependencies
+├── train_generator.py          # Seq2Seq Transformer Generator training script
+├── train_retriever.py          # Dense Retriever training script
+│
+├── data/
+│   ├── documents/              # Source raw knowledge documents (.txt, .pdf, .docx)
+│   ├── processed/              # Segmented and cleaned chunks (chunks.json)
+│   └── training/               # Retriever and Generator training pairs (JSON)
+│
+├── models/
+│   ├── tokenizer/              # Trained subword BPE tokenizer files
+│   ├── retriever/              # Retriever model configuration metadata
+│   └── generator/              # Generator model configuration metadata
+│
+├── checkpoints/
+│   ├── retriever/              # Retriever checkpoints (best_model.pt, latest.pt)
+│   └── generator/              # Generator checkpoints (best_model.pt, latest.pt)
+│
+├── indexes/                    # Dense embeddings (.npy) and metadata (.json)
+├── logs/                       # Training histories and metric evaluation logs
+│
+└── src/
+    ├── data/                   # Document loader, cleaner, chunker, and datasets
+    ├── tokenizer/              # Subword BPE tokenizer implementation
+    ├── transformer/            # Native PyTorch Attention, Positional Encoding, Layers
+    ├── retriever/              # Dual Encoder and retriever logic
+    ├── vectorstore/            # In-memory vector store & cosine search
+    ├── generator/              # Transformer seq2seq generator and decoding logic
+    ├── rag/                    # Context builder, RAG pipeline, and evaluator
+    └── utils/                  # Checkpoint manager, metrics, and seed utilities
+
+----------------------------------------------------------------------------------------
+5. HOW TO RUN & TEST THE SYSTEM
+----------------------------------------------------------------------------------------
+A. WEB TESTING STUDIO (Recommended):
+   Open your browser and navigate to:
+   http://localhost:4881
+
+   Features:
+   - Ask questions interactively in real time.
+   - Inspect retrieved context chunks, document origins, and similarity percentages.
+   - Re-train models or upload new knowledge documents with automatic re-indexing.
+
+B. INTERACTIVE CLI CHAT:
+   powershell> python chat.py --show-context
+
+C. CLI TRAINING WORKFLOW:
+   powershell> python prepare_data.py
+   powershell> python ingest_documents.py
+   powershell> python -m src.tokenizer.train_tokenizer --vocab_size 8000
+   powershell> python train_retriever.py --preset SMALL --epochs 50
+   powershell> python build_index.py --rebuild --preset SMALL
+   powershell> python train_generator.py --preset SMALL --epochs 80
+
+D. SYSTEM EVALUATION:
+   powershell> python evaluate.py --preset SMALL
+
+----------------------------------------------------------------------------------------
+6. KEY TALKING POINTS FOR PRESENTATION / PROJECT DEFENSE
+----------------------------------------------------------------------------------------
+When presenting this project to your professor or audience, emphasize the following:
+
+1. 100% Native Implementation:
+   "Unlike standard projects that simply call OpenAI or HuggingFace endpoints, every 
+   component—from the scaled dot-product self-attention formula to the dual-encoder 
+   contrastive loss—was written and trained in native PyTorch."
+
+2. Grounded Generation & Zero Hallucination:
+   "The system implements Retrieval-Augmented Generation. When a query is received, the 
+   Dense Retriever projects the question into vector space, locates the top relevant document 
+   chunks via cosine similarity, and conditions the Transformer Generator solely on verifiable 
+   source citations."
+
+3. Completely Offline & Enterprise Private:
+   "No data leaves the host computer. The system is completely secure, private, and capable 
+   of running in air-gapped environments without internet access."
+
+4. Full Modular Extensibility:
+   "New documents (TXT, PDF, DOCX) can be ingested at any time. The vector database 
+   dynamically updates its embeddings without requiring model retraining from scratch."
+
+========================================================================================
+REPORT GENERATED & SAVED TO HOST DESKTOP
+========================================================================================
