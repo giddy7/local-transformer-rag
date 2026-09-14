@@ -1,5 +1,8 @@
 # Complete Local PyTorch Transformer Retrieval-Augmented Generation (RAG) System
 
+> **Project Author:** Ajayi Goodness Bayode  
+> **Course / Assignment:** NLP / NLU Assignment  
+
 A complete, production-grade, local **Retrieval-Augmented Generation (RAG)** system built entirely from scratch using **PyTorch** and **Transformer Architecture** on Windows.
 
 This project runs 100% locally on your computer with **zero external cloud APIs** (no OpenAI, no Anthropic, no Google Cloud). It includes local document ingestion (TXT, PDF, DOCX), subword BPE tokenization, dense Transformer retriever training, vector index search, seq2seq Transformer answer generation, evaluation metrics (Recall@K, MRR, BLEU, Exact Match), independent checkpointing with resume functionality, and an interactive CLI chat interface.
@@ -269,3 +272,10 @@ RAG/
         ├── metrics.py
         └── seed.py
 ```
+
+---
+
+## 👤 Author & Academic Attribution
+
+This project was developed by **Ajayi Goodness Bayode** as part of the **NLP / NLU Assignment**.
+
